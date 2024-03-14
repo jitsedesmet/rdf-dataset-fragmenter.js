@@ -449,7 +449,11 @@
         "@type": "FragmentationStrategySubject"
       },
       {
-        "@type": "FragmentationStrategySgv"
+        "@type": "FragmentationStrategySgv",
+        "predicate": "http://localhost:3000/internal/postsFragmentation",
+        "object": "http://localhost:3000/internal/FragmentationCreationDate",
+        "sgvTemplatePath": "./sgv-descr.ttl",
+        "subjectRegexMatch": "profile\\/card#me$"
       }
     ]
   },
