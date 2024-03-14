@@ -8,16 +8,16 @@
 @prefix ldbc: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> .
 @prefix dbo: <https://dbpedia.org/ontology> .
 
-<#pod> a ldp:Container, sgv:unstructured-container ;
+<> a ldp:Container, sgv:unstructured-container ;
     sgv:client-control [
         a sgv:allow-when-not-claimed ;
     ] ;
     sgv:one-file-one-resource "false"^^xsd:boolean .
 
 # An unstructured container contains a structured container "posts"
-<#posts-container> a ldp:Container, sgv:structured-container .
+<posts/> a ldp:Container, sgv:structured-container .
 # And we describe that container...
-<#posts-container> a sgv:canonical-container ;
+<posts/> a sgv:canonical-container ;
     sgv:save-condition [
         a sgv:always-stored ;
     ] ;
@@ -38,7 +38,7 @@
         ] ;
     ] .
 
-<#postShape>
+<svg#postShape>
     a sh:NodeShape ;
     sh:property [
         sh:path rdfs:type ;

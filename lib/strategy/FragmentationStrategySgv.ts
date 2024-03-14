@@ -38,11 +38,11 @@ export class FragmentationStrategySgv extends FragmentationStrategyStreamAdapter
     if (quad.predicate.equals(this.fragmentationPredicate) && quad.object.equals(this.fragmentationObject)) {
       const quads = await this.readPromise;
 
-      const subjectIri = quad.subject.value.replace(new RegExp(this.subjectRegexMatch, 'u'), 'sgv');
+      const subjectIri = quad.subject.value.replace(new RegExp(this.subjectRegexMatch, 'u'), '');
 
       for (const turtleQuad of quads) {
         await quadSink.push(
-          subjectIri,
+          `${subjectIri}sgv`,
           DF.quad(
             turtleQuad.subject.termType === 'BlankNode' ?
               turtleQuad.subject :
