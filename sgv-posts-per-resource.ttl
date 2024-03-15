@@ -8,16 +8,16 @@
 @prefix ldbc: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> .
 @prefix dbo: <https://dbpedia.org/ontology> .
 
-<> a ldp:Container, sgv:unstructured-container ;
+<> a ldp:Container, sgv:unstructured-collection ;
     sgv:client-control [
         a sgv:allow-when-not-claimed ;
     ] ;
     sgv:one-file-one-resource "true"^^xsd:boolean .
 
-# An unstructured container contains a structured container "posts"
-<posts/> a ldp:Container, sgv:structured-container .
-# And we describe that container...
-<posts/> a sgv:canonical-container ;
+# An unstructured collection contains a structured collection "posts"
+<posts/> a ldp:Container, sgv:structured-collection .
+# And we describe that collection...
+<posts/> a sgv:canonical-collection ;
     sgv:one-file-one-resource "true"^^xsd:boolean ;
     sgv:save-condition [
         a sgv:always-stored ;
@@ -29,8 +29,9 @@
         a sgv:shacl-descriptor ;
         sgv:shacl-shape <sgv#postShape> ;
     ] ;
-    sgv:materilization [
-        a sgv:materialize-file ;
+    sgv:group-strategy [
+        a sgv:group-strategty-uri-template ;
+        sgv:uri-template '{base}/posts/{_id}' ;
     ] .
 
 <sgv#postShape>

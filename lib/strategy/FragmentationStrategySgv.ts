@@ -41,6 +41,13 @@ export class FragmentationStrategySgv extends FragmentationStrategyStreamAdapter
       const subjectIri = quad.subject.value.replace(new RegExp(this.subjectRegexMatch, 'u'), '');
 
       for (const turtleQuad of quads) {
+        let object = turtleQuad.object;
+        if (object.termType === 'NamedNode' && !object.value.startsWith('http')) {
+          object = DF.namedNode(subjectIri + object.value);
+        } else if (object.termType === 'Literal' && object.value.includes('{base}')) {
+          object = DF.literal(object.value.replace(/\{base\}\//gu, subjectIri), object.datatype);
+        }
+
         await quadSink.push(
           `${subjectIri}sgv`,
           DF.quad(
@@ -48,9 +55,7 @@ export class FragmentationStrategySgv extends FragmentationStrategyStreamAdapter
               turtleQuad.subject :
               DF.namedNode(subjectIri + turtleQuad.subject.value),
             turtleQuad.predicate,
-            turtleQuad.object.termType === 'NamedNode' && !turtleQuad.object.value.startsWith('http') ?
-              DF.namedNode(subjectIri + turtleQuad.object.value) :
-              turtleQuad.object,
+            object,
             turtleQuad.graph,
           ),
         );

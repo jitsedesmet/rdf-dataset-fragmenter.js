@@ -29,14 +29,9 @@
         a sgv:shacl-descriptor ;
         sgv:shacl-shape <sgv#postShape> ;
     ] ;
-    sgv:materilization [
-        a sgv:grouped-in-container ;
-        sgv:group-strategy [
-            a sgv:group-strategty-uri-template ;
-#            automatically preceded with "{base}"
-            sgv:uri-template
-                '/{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10}' ;
-        ] ;
+    sgv:group-strategy [
+        a sgv:group-strategty-uri-template ;
+        sgv:uri-template '{base}/posts/{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10}' ;
     ] .
 
 <sgv#postShape>
