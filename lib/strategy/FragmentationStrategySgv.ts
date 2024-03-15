@@ -48,7 +48,9 @@ export class FragmentationStrategySgv extends FragmentationStrategyStreamAdapter
               turtleQuad.subject :
               DF.namedNode(subjectIri + turtleQuad.subject.value),
             turtleQuad.predicate,
-            turtleQuad.object,
+            turtleQuad.object.termType === 'NamedNode' && !turtleQuad.object.value.startsWith('http') ?
+              DF.namedNode(subjectIri + turtleQuad.object.value) :
+              turtleQuad.object,
             turtleQuad.graph,
           ),
         );

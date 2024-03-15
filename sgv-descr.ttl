@@ -26,7 +26,7 @@
     ] ;
     sgv:resource-description [
         a sgv:shacl-descriptor ;
-        sgv:shacl-shape ex:postsShape ;
+        sgv:shacl-shape <sgv#postShape> ;
     ] ;
     sgv:materilization [
         a sgv:materialize-file ;
@@ -38,7 +38,7 @@
         ] ;
     ] .
 
-<svg#postShape>
+<sgv#postShape>
     a sh:NodeShape ;
     sh:property [
         sh:path rdfs:type ;
