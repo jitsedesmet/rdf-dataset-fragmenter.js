@@ -452,7 +452,21 @@
         "@type": "FragmentationStrategySgv",
         "predicate": "http://localhost:3000/internal/postsFragmentation",
         "object": "http://localhost:3000/internal/FragmentationCreationDate",
-        "sgvTemplatePath": "./sgv-descr.ttl",
+        "sgvTemplatePath": "./sgv-posts-creationdate.ttl",
+        "subjectRegexMatch": "profile\\/card#me$"
+      },
+      {
+        "@type": "FragmentationStrategySgv",
+        "predicate": "http://localhost:3000/internal/postsFragmentation",
+        "object": "http://localhost:3000/internal/FragmentationPerResource",
+        "sgvTemplatePath": "./sgv-posts-per-resource.ttl",
+        "subjectRegexMatch": "profile\\/card#me$"
+      },
+      {
+        "@type": "FragmentationStrategySgv",
+        "predicate": "http://localhost:3000/internal/postsFragmentation",
+        "object": "http://localhost:3000/internal/FragmentationLocation",
+        "sgvTemplatePath": "./sgv-posts-location.ttl",
         "subjectRegexMatch": "profile\\/card#me$"
       }
     ]

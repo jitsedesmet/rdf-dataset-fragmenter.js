@@ -1,0 +1,47 @@
+@prefix : <http://localhost:3000/mypod/sgv-description> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.org/> .
+@prefix sgv: <https://thesis.jitsedesmet.be/solution/storage-guidance-vocabulary/#> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ldbc: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> .
+@prefix dbo: <https://dbpedia.org/ontology> .
+
+<> a ldp:Container, sgv:unstructured-container ;
+    sgv:client-control [
+        a sgv:allow-when-not-claimed ;
+    ] ;
+    sgv:one-file-one-resource "true"^^xsd:boolean .
+
+# An unstructured container contains a structured container "posts"
+<posts/> a ldp:Container, sgv:structured-container .
+# And we describe that container...
+<posts/> a sgv:canonical-container ;
+    sgv:one-file-one-resource "true"^^xsd:boolean ;
+    sgv:save-condition [
+        a sgv:always-stored ;
+    ] ;
+    sgv:update-condition [
+        a sgv:update-prefer-static ;
+    ] ;
+    sgv:resource-description [
+        a sgv:shacl-descriptor ;
+        sgv:shacl-shape <sgv#postShape> ;
+    ] ;
+    sgv:materilization [
+        a sgv:materialize-file ;
+    ] .
+
+<sgv#postShape>
+    a sh:NodeShape ;
+    sh:property [
+        sh:path rdfs:type ;
+        sh:class ldbc:Post ;
+    ] ;
+    sh:property [
+        sh:path ldbc:creationDate ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] .
