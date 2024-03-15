@@ -468,6 +468,13 @@
         "object": "http://localhost:3000/internal/FragmentationLocation",
         "sgvTemplatePath": "./sgv-posts-location.ttl",
         "subjectRegexMatch": "profile\\/card#me$"
+      },
+      {
+        "@type": "FragmentationStrategySgv",
+        "predicate": "http://localhost:3000/internal/postsFragmentation",
+        "object": "http://localhost:3000/internal/FragmentationOneFile",
+        "sgvTemplatePath": "./sgv-posts-one-file.ttl",
+        "subjectRegexMatch": "profile\\/card#me$"
       }
     ]
   },
