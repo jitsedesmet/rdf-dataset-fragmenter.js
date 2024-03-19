@@ -1,4 +1,3 @@
-import type { Quad } from '@rdfjs/types';
 import type * as RDF from '@rdfjs/types';
 import { DataFactory } from 'rdf-data-factory';
 import rdfParser from 'rdf-parse';
@@ -13,7 +12,7 @@ export class FragmentationStrategySgv extends FragmentationStrategyStreamAdapter
   private readonly fragmentationPredicate;
   private readonly fragmentationObject;
 
-  private readonly readPromise: Promise<Quad[]>;
+  private readonly readPromise: Promise<RDF.Quad[]>;
 
   public constructor(
     private readonly sgvTemplatePath: string,
@@ -22,19 +21,19 @@ export class FragmentationStrategySgv extends FragmentationStrategyStreamAdapter
     private readonly subjectRegexMatch: string,
   ) {
     super();
-    const turtleStore: Quad[] = [];
+    const turtleStore: RDF.Quad[] = [];
     this.fragmentationPredicate = DF.namedNode(predicate);
     this.fragmentationObject = DF.namedNode(object);
-    this.readPromise = new Promise<Quad[]>((resolve, reject) => {
+    this.readPromise = new Promise<RDF.Quad[]>((resolve, reject) => {
       rdfParser.parse(fs.createReadStream(sgvTemplatePath), {
         contentType: 'text/turtle',
-      }).on('data', (quad: Quad) => {
+      }).on('data', (quad: RDF.Quad) => {
         turtleStore.push(quad);
       }).on('error', reject).on('end', () => resolve(turtleStore));
     });
   }
 
-  public async handleQuad(quad: Quad, quadSink: IQuadSink): Promise<void> {
+  public async handleQuad(quad: RDF.Quad, quadSink: IQuadSink): Promise<void> {
     if (quad.predicate.equals(this.fragmentationPredicate) && quad.object.equals(this.fragmentationObject)) {
       const quads = await this.readPromise;
 
