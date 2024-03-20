@@ -37,12 +37,20 @@
 <sgv#postShape>
     a sh:NodeShape ;
     sh:property [
-        sh:path rdfs:type ;
-        sh:class ldbc:Post ;
-    ] ;
+                    sh:path rdfs:type ;
+                    sh:class ldbc:Post ;
+                    sh:minCount 1 ;
+                    sh:maxCount 1 ;
+                ] ;
     sh:property [
-        sh:path ldbc:creationDate ;
-        sh:datatype xsd:dateTime ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-    ] .
+                    sh:path ldbc:creationDate ;
+                    sh:datatype xsd:dateTime ;
+                    sh:minCount 1 ;
+                    sh:maxCount 1 ;
+                ] ;
+    sh:property [
+                    sh:path ldbc:id ;
+                    sh:datatype xsd:long ;
+                    sh:minCount 1 ;
+                    sh:maxCount 1 ;
+                ] .
