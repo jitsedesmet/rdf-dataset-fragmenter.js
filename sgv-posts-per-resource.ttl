@@ -9,48 +9,55 @@
 @prefix dbo: <https://dbpedia.org/ontology> .
 
 <> a ldp:Container, sgv:unstructured-collection ;
-    sgv:client-control [
-        a sgv:allow-when-not-claimed ;
+  sgv:client-control
+    [
+      a sgv:allow-when-not-claimed ;
     ] ;
-    sgv:one-file-one-resource "true"^^xsd:boolean .
+  sgv:one-file-one-resource "true"^^xsd:boolean .
 
 # An unstructured collection contains a structured collection "posts"
 <posts/> a ldp:Container, sgv:structured-collection .
 # And we describe that collection...
 <posts/> a sgv:canonical-collection ;
-    sgv:one-file-one-resource "true"^^xsd:boolean ;
-    sgv:save-condition [
-        a sgv:always-stored ;
+  sgv:one-file-one-resource "true"^^xsd:boolean ;
+  sgv:save-condition
+    [
+      a sgv:always-stored ;
+      sgv:resource-description
+        [
+          sgv:shacl-shape <sgv#postShape> ;
+        ] ;
+      sgv:update-condition
+        [
+          a sgv:update-prefer-static ;
+        ] ;
     ] ;
-    sgv:update-condition [
-        a sgv:update-prefer-static ;
-    ] ;
-    sgv:resource-description [
-        a sgv:shacl-descriptor ;
-        sgv:shacl-shape <sgv#postShape> ;
-    ] ;
-    sgv:group-strategy [
-        a sgv:group-strategty-uri-template ;
-        sgv:uri-template '{base}/posts/{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2Fid}' ;
+  sgv:group-strategy
+    [
+      a sgv:group-strategty-uri-template ;
+      sgv:uri-template '{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2Fid}' ;
     ] .
 
 <sgv#postShape>
-    a sh:NodeShape ;
-    sh:property [
-                    sh:path rdfs:type ;
-                    sh:class ldbc:Post ;
-                    sh:minCount 1 ;
-                    sh:maxCount 1 ;
-                ] ;
-    sh:property [
-                    sh:path ldbc:creationDate ;
-                    sh:datatype xsd:dateTime ;
-                    sh:minCount 1 ;
-                    sh:maxCount 1 ;
-                ] ;
-    sh:property [
-                    sh:path ldbc:id ;
-                    sh:datatype xsd:long ;
-                    sh:minCount 1 ;
-                    sh:maxCount 1 ;
-                ] .
+  a sh:NodeShape ;
+  sh:property
+    [
+      sh:path rdfs:type ;
+      sh:class ldbc:Post ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+  sh:property
+    [
+      sh:path ldbc:creationDate ;
+      sh:datatype xsd:dateTime ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+  sh:property
+    [
+      sh:path ldbc:id ;
+      sh:datatype xsd:long ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] .
