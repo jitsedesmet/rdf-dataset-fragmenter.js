@@ -24,13 +24,14 @@
   sgv:save-condition
     [
       a sgv:always-stored ;
-      sgv:resource-description
-        [
-          sgv:shacl-shape <sgv#postShape> ;
-        ] ;
       sgv:update-condition
         [
           a sgv:update-prefer-static ;
+          sgv:resource-description
+            [
+              a sgv:shacl-descriptor ;
+              sgv:shacl-shape <sgv#postShape> ;
+            ] ;
         ] ;
     ] ;
   sgv:group-strategy

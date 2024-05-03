@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix : <http://localhost:3000/mypod/sgv-description> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -23,13 +24,14 @@
   sgv:save-condition
     [
       a sgv:always-stored ;
-      sgv:resource-description
-        [
-          sgv:shacl-shape <sgv#postShape> ;
-        ] ;
       sgv:update-condition
         [
           a sgv:update-prefer-static ;
+          sgv:resource-description
+            [
+              a sgv:shacl-descriptor ;
+              sgv:shacl-shape <sgv#postShape> ;
+            ] ;
         ] ;
     ] ;
   sgv:group-strategy
@@ -42,10 +44,8 @@
   a sh:NodeShape ;
   sh:property
     [
-      sh:path rdfs:type ;
-      sh:class ldbc:Post ;
-      sh:minCount 1 ;
-      sh:maxCount 1 ;
+      sh:path rdf:type ;
+      sh:hasValue ldbc:Post ;
     ] ;
   sh:property
     [
