@@ -33,7 +33,7 @@
   sgv:group-strategy [
       a sgv:group-strategty-uri-template ;
       sgv:uri-template
-        '{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FisLocatedIn}#{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2Fid}' ;
+        '{+http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FisLocatedIn}#{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2Fid}' ;
       sgv:regex-match '.*\\/([^/]+)#([^#]+)$' ;
       sgv:regex-replace '$1#$2' ;
     ] .
