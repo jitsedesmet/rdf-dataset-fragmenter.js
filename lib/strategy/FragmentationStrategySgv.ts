@@ -1,0 +1,64 @@
+import type * as RDF from '@rdfjs/types';
+import { DataFactory } from 'rdf-data-factory';
+import rdfParser from 'rdf-parse';
+import type { IQuadSink } from '../io/IQuadSink';
+import { FragmentationStrategyStreamAdapter } from './FragmentationStrategyStreamAdapter';
+
+const fs = require('node:fs');
+
+const DF = new DataFactory<RDF.Quad>();
+
+export class FragmentationStrategySgv extends FragmentationStrategyStreamAdapter {
+  private readonly fragmentationPredicate;
+  private readonly fragmentationObject;
+
+  private readonly readPromise: Promise<RDF.Quad[]>;
+
+  public constructor(
+    private readonly sgvTemplatePath: string,
+    private readonly predicate: string,
+    private readonly object: string,
+    private readonly subjectRegexMatch: string,
+  ) {
+    super();
+    const turtleStore: RDF.Quad[] = [];
+    this.fragmentationPredicate = DF.namedNode(predicate);
+    this.fragmentationObject = DF.namedNode(object);
+    this.readPromise = new Promise<RDF.Quad[]>((resolve, reject) => {
+      rdfParser.parse(fs.createReadStream(sgvTemplatePath), {
+        contentType: 'text/turtle',
+      }).on('data', (quad: RDF.Quad) => {
+        turtleStore.push(quad);
+      }).on('error', reject).on('end', () => resolve(turtleStore));
+    });
+  }
+
+  public async handleQuad(quad: RDF.Quad, quadSink: IQuadSink): Promise<void> {
+    if (quad.predicate.equals(this.fragmentationPredicate) && quad.object.equals(this.fragmentationObject)) {
+      const quads = await this.readPromise;
+
+      const subjectIri = quad.subject.value.replace(new RegExp(this.subjectRegexMatch, 'u'), '');
+
+      for (const turtleQuad of quads) {
+        let object = turtleQuad.object;
+        if (object.termType === 'NamedNode' && !object.value.startsWith('http')) {
+          object = DF.namedNode(subjectIri + object.value);
+        } else if (object.termType === 'Literal' && object.value.includes('{base}')) {
+          object = DF.literal(object.value.replace(/\{base\}\//gu, subjectIri), object.datatype);
+        }
+
+        await quadSink.push(
+          `${subjectIri}sgv`,
+          DF.quad(
+            turtleQuad.subject.termType === 'BlankNode' ?
+              turtleQuad.subject :
+              DF.namedNode(subjectIri + turtleQuad.subject.value),
+            turtleQuad.predicate,
+            object,
+            turtleQuad.graph,
+          ),
+        );
+      }
+    }
+  }
+}
